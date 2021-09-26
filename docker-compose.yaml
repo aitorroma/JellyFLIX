@@ -15,9 +15,17 @@ services:
       - ./gdrive/podcast:/data/podcast
       - ./gdrive/iptv:/data/iptv
       - ./gdrive/record:/data/record
+    env_file: .env
+    labels:
+      traefik.enable: 'true'
+      traefik.frontend.rule: "Host:${HOSTNAME}"
+      traefik.port: '8096'
     expose:
-      - 8096
-    network_mode: "host"
+      - "80"
+      - "443"  
+    networks:
+      - default
+      - web
     depends_on:
       - rclone-mount
 
